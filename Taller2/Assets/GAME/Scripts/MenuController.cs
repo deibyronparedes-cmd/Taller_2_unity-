@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Lógica exclusiva de la escena Menu.
-// No crea GameManager: solo lee config.json para mostrar saludo o error.
+
 public class MenuController : MonoBehaviour
 {
     [Header("Textos")]
@@ -27,7 +26,7 @@ public class MenuController : MonoBehaviour
 
         if (config == null)
         {
-            // El juego no se cierra: se muestra el error en pantalla.
+            
             if (textoError != null)
             {
                 textoError.text = error;
@@ -43,7 +42,7 @@ public class MenuController : MonoBehaviour
         if (botonJugar != null) botonJugar.interactable = true;
     }
 
-    // --- Métodos para enlazar en el OnClick de los botones ---
+    
 
     public void Jugar()
     {

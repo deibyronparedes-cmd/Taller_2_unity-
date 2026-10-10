@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// Reproduce solo un fragmento de un AudioClip (desde "inicio", durante "duracion" segundos).
-// Se enlaza en el OnClick de un botón: SonidoRecortado > Reproducir().
+
 [RequireComponent(typeof(AudioSource))]
 public class SonidoRecortado : MonoBehaviour
 {
