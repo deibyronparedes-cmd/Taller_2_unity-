@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GAME/Scenes/Instrucciones.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/GAME/Scenes/Menu.unity
+    guid: f271f60e49e465f45bfb48e5bddeb5b2
+  - enabled: 1
+    path: Assets/GAME/Scenes/Mina.unity
+    guid: a26274226d2b317448ef21410ae24bd4
+  - enabled: 1
+    path: Assets/GAME/Scenes/Criatura.unity
+    guid: 476fa7eff4b80c742a236f8748c5d302
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
