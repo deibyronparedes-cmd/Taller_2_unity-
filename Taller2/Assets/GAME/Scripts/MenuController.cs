@@ -3,24 +3,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Lógica exclusiva de la escena Menu.
-// No crea GameManager: solo lee config.json para mostrar saludo o error.
 public class MenuController : MonoBehaviour
 {
     [Header("Textos")]
     [SerializeField] private TMP_Text textoSaludo;
     [SerializeField] private TMP_Text textoError;
 
-    [Header("Botones y paneles")]
+    [Header("Botones")]
     [SerializeField] private Button botonJugar;
-    [SerializeField] private GameObject panelInstrucciones;
 
     [Header("Escenas")]
     [SerializeField] private string escenaJuego = "Mina";
+    [SerializeField] private string escenaInstrucciones = "Instrucciones";
 
     private void Start()
     {
-        if (panelInstrucciones != null) panelInstrucciones.SetActive(false);
         if (textoError != null) textoError.gameObject.SetActive(false);
 
         string error;
@@ -28,7 +25,7 @@ public class MenuController : MonoBehaviour
 
         if (config == null)
         {
-            // El juego no se cierra: se muestra el error en pantalla.
+            .
             if (textoError != null)
             {
                 textoError.text = error;
@@ -44,7 +41,7 @@ public class MenuController : MonoBehaviour
         if (botonJugar != null) botonJugar.interactable = true;
     }
 
-    // --- Métodos para enlazar en el OnClick de los botones ---
+    
 
     public void Jugar()
     {
@@ -53,12 +50,7 @@ public class MenuController : MonoBehaviour
 
     public void AbrirInstrucciones()
     {
-        if (panelInstrucciones != null) panelInstrucciones.SetActive(true);
-    }
-
-    public void CerrarInstrucciones()
-    {
-        if (panelInstrucciones != null) panelInstrucciones.SetActive(false);
+        SceneManager.LoadScene(escenaInstrucciones);
     }
 
     public void Salir()
