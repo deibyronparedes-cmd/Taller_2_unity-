@@ -1,33 +1,36 @@
 using UnityEngine;
 
-// Movimiento horizontal y salto del jugador.
-// Velocidad y fuerza de salto vienen de config.json (jugador.velocidad, jugador.fuerzaSalto).
+
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Detección de suelo (Raycast2D)")]
-    [SerializeField] private Transform puntoSuelo;
-    [SerializeField] private float distanciaSuelo = 0.15f;
+    [Tooltip("Si se deja vacío, detecta cualquier layer menos la del propio jugador.")]
     [SerializeField] private LayerMask capaSuelo;
+    [SerializeField] private float distanciaSuelo = 0.2f;
 
     [Header("Animación (opcional)")]
     [SerializeField] private Animator animator;
 
     private Rigidbody2D rb;
+    private Collider2D colision;
+    private readonly RaycastHit2D[] resultados = new RaycastHit2D[4];
     private float velocidad;
     private float fuerzaSalto;
     private bool configLista;
 
-    // Para las mejoras temporales de los minerales (se usarán más adelante).
+   
     public float MultiplicadorVelocidad { get; set; } = 1f;
     public float MultiplicadorSalto { get; set; } = 1f;
 
     public bool EnSuelo { get; private set; }
-    public int Direccion { get; private set; } = 1; // 1 = derecha, -1 = izquierda
+    public int Direccion { get; private set; } = 1; 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        colision = GetComponent<Collider2D>();
 
         string error;
         ConfigData config = JsonService.CargarConfig(out error);
@@ -46,9 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!configLista) return;
 
-        // Raycast hacia abajo: solo se puede saltar si detecta suelo.
-        RaycastHit2D golpe = Physics2D.Raycast(puntoSuelo.position, Vector2.down, distanciaSuelo, capaSuelo);
-        EnSuelo = golpe.collider != null;
+        EnSuelo = DetectarSuelo();
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         rb.linearVelocity = new Vector2(horizontal * velocidad * MultiplicadorVelocidad, rb.linearVelocity.y);
@@ -65,6 +66,25 @@ public class PlayerController : MonoBehaviour
         ActualizarAnimator(horizontal);
     }
 
+   
+    private bool DetectarSuelo()
+    {
+        Bounds b = colision.bounds;
+        Vector2 origen = new Vector2(b.center.x, b.min.y + 0.05f);
+
+        ContactFilter2D filtro = new ContactFilter2D();
+        filtro.useTriggers = false; 
+        LayerMask mascara = capaSuelo.value == 0 ? (LayerMask)(~(1 << gameObject.layer)) : capaSuelo;
+        filtro.SetLayerMask(mascara);
+
+        int golpes = Physics2D.Raycast(origen, Vector2.down, filtro, resultados, distanciaSuelo + 0.05f);
+        for (int i = 0; i < golpes; i++)
+        {
+            if (resultados[i].collider != colision) return true;
+        }
+        return false;
+    }
+
     private void Voltear()
     {
         Vector3 escala = transform.localScale;
@@ -79,11 +99,14 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("EnSuelo", EnSuelo);
     }
 
-    // Dibuja el rayo del suelo en la vista Scene para poder ajustarlo.
+    
     private void OnDrawGizmosSelected()
     {
-        if (puntoSuelo == null) return;
+        Collider2D c = GetComponent<Collider2D>();
+        if (c == null) return;
+        Bounds b = c.bounds;
+        Vector3 origen = new Vector3(b.center.x, b.min.y + 0.05f, 0f);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(puntoSuelo.position, puntoSuelo.position + Vector3.down * distanciaSuelo);
+        Gizmos.DrawLine(origen, origen + Vector3.down * (distanciaSuelo + 0.05f));
     }
 }
