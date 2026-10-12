@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2748005353752976998}
   - component: {fileID: 6556480531962736768}
   - component: {fileID: 7887636776693088893}
-  - component: {fileID: 2906275110506834292}
+  - component: {fileID: 4056065582909870157}
   m_Layer: 0
   m_Name: trampa
   m_TagString: Trampa
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_Size: {x: 0.26, y: 0.18}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!61 &7887636776693088893
 BoxCollider2D:
@@ -131,7 +131,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.26, y: 0.18}
+    oldSize: {x: 0.24, y: 0.16}
     newSize: {x: 0.26, y: 0.18}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -139,7 +139,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.26, y: 0.18}
   m_EdgeRadius: 0
---- !u!114 &2906275110506834292
+--- !u!114 &4056065582909870157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,6 +148,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5380362746020182906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8751942a6870f0a41842b0e80c23e514, type: 3}
+  m_Script: {fileID: 11500000, guid: e46e542f9a157644aa50373ea13a64f3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  m_EditorClassIdentifier: Assembly-CSharp::Hazard
+  danio: 1
+  causaMuerte: obstaculo

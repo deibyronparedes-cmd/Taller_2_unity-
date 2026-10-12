@@ -47,6 +47,35 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Vector2 direccionFrente = new Vector2(transform.localScale.x > 0 ? 1 : -1, 0);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direccionFrente, 1.5f);
+
+            if (hit.collider != null)
+            {
+                PlataformaMovil plataforma = hit.collider.GetComponent<PlataformaMovil>();
+
+                if (plataforma != null && plataforma.requiereBateria)
+                {
+                    int baterias = GameManager.Instance.inventarioConteo.ContainsKey("bateria")
+                        ? GameManager.Instance.inventarioConteo["bateria"] : 0;
+
+                    if (baterias > 0)
+                    {
+                        GameManager.Instance.inventarioConteo["bateria"]--;
+                        plataforma.ActivarPlataformaConBateria();
+                        Debug.Log("¡Mecanismo activado! Baterías restantes: " + GameManager.Instance.inventarioConteo["bateria"]);
+                    }
+                    else
+                    {
+                        Debug.Log("Necesitas una batería para activar este mecanismo.");
+                    }
+                }
+            }
+        }
+
         if (!configLista) return;
 
         EnSuelo = DetectarSuelo();
